@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unicorns | Cyber Cat Notes</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #020617;
+            --card: rgba(30, 41, 59, 0.7);
+            --accent: #22d3ee;
+            --pink: #f472b6;
+            --neon-glow: 0 0 15px rgba(34, 211, 238, 0.3);
+        }
+
+        * { box-sizing: border-box; }
+        body {
+            font-family: 'Montserrat', sans-serif;
+            margin: 0; background: var(--bg); color: #fff;
+            scroll-behavior: smooth; overflow-x: hidden;
+        }
+
+        body::before {
+            content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at 50% 50%, #1e293b 0%, #020617 100%);
+            z-index: -1;
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(100px) scale(0.8) rotateX(-15deg);
+            transition: all 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0) scale(1) rotateX(0deg);
+        }
+
+        .side-nav {
+            position: fixed; left: 30px; top: 50%; transform: translateY(-50%);
+            z-index: 1000; display: flex; flex-direction: column; gap: 20px;
+        }
+        .nav-btn {
+            width: 60px; height: 60px; background: var(--card);
+            border-radius: 50%; border: 1px solid var(--accent);
+            display: flex; align-items: center; justify-content: center;
+            color: var(--accent); text-decoration: none; transition: 0.5s;
+            backdrop-filter: blur(10px); font-size: 20px;
+        }
+        .nav-btn:hover {
+            background: var(--accent); color: #000;
+            transform: scale(1.2) rotate(360deg);
+            box-shadow: 0 0 30px var(--accent);
+        }
+
+        header {
+            position: fixed; top: 0; width: 100%; padding: 20px 5%;
+            display: flex; justify-content: flex-end; z-index: 999;
+        }
+        .music-pill {
+            background: var(--card); padding: 12px 25px; border-radius: 50px;
+            border: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; gap: 15px;
+            box-shadow: var(--neon-glow);
+        }
+
+        section { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 100px 20px; }
+
+        .main-capsule {
+            background: var(--card); backdrop-filter: blur(30px);
+            width: 100%; max-width: 1100px; padding: 70px;
+            border-radius: 100px; text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 50px 100px rgba(0,0,0,0.8);
+            position: relative;
+        }
+
+        h1 { font-size: clamp(50px, 9vw, 85px); font-weight: 900; margin: 0; background: linear-gradient(45deg, var(--accent), var(--pink)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        h2 { font-size: 40px; color: var(--accent); margin-bottom: 30px; }
+        
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 35px; margin-top: 50px; }
+
+        .glass-pill {
+            background: rgba(255, 255, 255, 0.03); border-radius: 50px; padding: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.05); transition: 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+        }
+        .glass-pill:hover {
+            transform: translateY(-20px) scale(1.05);
+            background: rgba(255, 255, 255, 0.08);
+            border-color: var(--accent);
+            box-shadow: var(--neon-glow);
+        }
+
+        input, textarea, select {
+            width: 100%; padding: 22px; margin: 12px 0; border-radius: 40px;
+            background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.1);
+            color: #fff; font-size: 16px; transition: 0.3s;
+        }
+        input:focus { border-color: var(--pink); box-shadow: 0 0 15px var(--pink); }
+
+        .btn-mega {
+            background: linear-gradient(45deg, #3b82f6, #22d3ee);
+            color: #fff; padding: 22px 55px; border-radius: 50px;
+            font-weight: 900; border: none; cursor: pointer; transition: 0.4s;
+            text-transform: uppercase; letter-spacing: 3px; display: inline-flex; align-items: center; gap: 15px;
+        }
+        .btn-mega:hover { letter-spacing: 6px; box-shadow: 0 0 40px var(--accent); transform: translateY(-5px); }
+
+        .cat-hero { width: 220px; height: 220px; border-radius: 80px; object-fit: cover; margin-bottom: 30px; border: 6px solid var(--accent); animation: float 4s ease-in-out infinite; }
+        
+        @keyframes float { 
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+        }
+    </style>
+</head>
+<body>
+
+<div class="side-nav">
+    <a href="#p1" class="nav-btn"><i class="fas fa-home"></i></a>
+    <a href="#p2" class="nav-btn"><i class="fas fa-rocket"></i></a>
+    <a href="#p3" class="nav-btn"><i class="fas fa-cloud"></i></a>
+    <a href="#p5" class="nav-btn"><i class="fas fa-icons"></i></a>
+    <a href="#p7" class="nav-btn"><i class="fas fa-headset"></i></a>
+</div>
+
+<header>
+    <div class="music-pill">
+        <i id="music-icon" class="fas fa-compact-disc" style="color: var(--accent);"></i>
+        <input type="file" id="music-upload" accept="audio/*" style="width: 120px; font-size: 10px;">
+        <audio id="player" loop></audio>
+    </div>
+</header>
+
+<section id="p1">
+    <div class="main-capsule reveal">
+        <img src="i ба чотка.jpeg" class="cat-hero" onerror="this.src='https://cataas.com/cat/cute'">
+        <h1>Student Notes</h1>
+        <p style="font-size: 22px; margin: 25px 0; opacity: 0.8;">Unicorns Cloud Ecosystem — where hard work meets digital beauty. <i class="fas fa-magic"></i></p>
+        <a href="#p2" class="btn-mega">Get Started <i class="fas fa-chevron-right"></i></a>
+    </div>
+</section>
+
+<section id="p2">
+    <div class="main-capsule reveal">
+        <h2>Our Superpowers <i class="fas fa-star" style="color: var(--pink)"></i></h2>
+        <div class="grid">
+            <div class="glass-pill">
+                <i class="fas fa-user-graduate fa-4x" style="color: var(--accent); margin-bottom: 20px;"></i>
+                <h3>For Legends</h3>
+                <p>Tailored specifically for KBTU students to organize complex data flows.</p>
+            </div>
+            <div class="glass-pill">
+                <i class="fas fa-cloud-moon fa-4x" style="color: var(--pink); margin-bottom: 20px;"></i>
+                <h3>Note Storage</h3>
+                <p>Never lose a thought. Our cloud capsule stores everything with cat-like precision.</p>
+            </div>
+            <div class="glass-pill">
+                <i class="fas fa-bolt fa-4x" style="color: #fbbf24; margin-bottom: 20px;"></i>
+                <h3>Finals Rush</h3>
+                <p>The ultimate revision tool for that last-minute repetition before the big fight.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="p3">
+    <div class="main-capsule reveal">
+        <h2><i class="fas fa-database"></i> Cloud Keeper</h2>
+        <div class="glass-pill" style="margin-bottom: 40px;">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                <select id="crit"><option>Study</option><option>Motivation</option><option>Ideas</option></select>
+                <input type="text" id="tit" placeholder="Note Title...">
+            </div>
+            <textarea id="con" rows="4" placeholder="Your secret knowledge..."></textarea>
+            <input type="file" id="img">
+            <button class="btn-mega" style="width: 100%; justify-content: center;" onclick="save()">Push to Universe <i class="fas fa-paper-plane"></i></button>
+        </div>
+        <input type="text" placeholder="🔍 Search through the cloud..." onkeyup="filter(this.value)">
+        <div id="list" class="grid"></div>
+    </div>
+</section>
+
+<section id="p4">
+    <div class="main-capsule reveal">
+        <h2>Cat Energy <i class="fas fa-paw"></i></h2>
+        <div class="grid">
+            <div class="glass-pill">
+                <img src="Michi explocion xdd.jpeg" style="width:100%; border-radius: 40px;" onerror="this.src='https://cataas.com/cat/funny'">
+                <p style="margin-top:25px; font-weight: 700;">"Coding is poetry in motion." <i class="fas fa-code"></i></p>
+            </div>
+            <div class="glass-pill">
+                <img src="Котэк #3.jpeg" style="width:100%; border-radius: 40px;" onerror="this.src='https://cataas.com/cat/says/Focus'">
+                <p style="margin-top:25px; font-weight: 700;">"Hard work always pays off." <i class="fas fa-gem"></i></p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="p7">
+    <div class="main-capsule reveal">
+        <h2>Connect Unicorns <i class="fas fa-headset"></i></h2>
+        <div class="grid">
+            <div class="glass-pill">
+                <i class="fas fa-laptop-code fa-2x"></i>
+                <p><b>Nuraylym (Dev)</b><br>87075305009</p>
+            </div>
+            <div class="glass-pill">
+                <i class="fab fa-telegram-plane fa-2x"></i>
+                <p><b>Leader</b><br>@Asellyyya</p>
+            </div>
+            <div class="glass-pill">
+                <i class="fas fa-palette fa-2x"></i>
+                <p><b>Designer</b><br>@bmadina23</p>
+            </div>
+        </div>
+        <div class="glass-pill" style="margin-top: 30px; border: 2px dashed var(--accent);">
+            <p><i class="fas fa-university"></i> <b>KBTU Professor:</b> s.yoldash@kbtu.kz</p>
+            <small>Contact us for extra help or to share your bright ideas!</small>
+        </div>
+    </div>
+</section>
+
+<script>
+    const obs = new IntersectionObserver((entries) => {
+        entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('active'); });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+    // ИСПРАВЛЕННАЯ МУЗЫКА
+    const musicUpload = document.getElementById('music-upload');
+    const player = document.getElementById('player');
+    const musicIcon = document.getElementById('music-icon');
+
+    musicUpload.addEventListener('change', function() {
+        const file = this.files[0];
+        if (file) {
+            const url = URL.createObjectURL(file);
+            player.src = url;
+            player.load(); // Обязательно загружаем
+            player.play().then(() => {
+                musicIcon.classList.add('fa-spin'); // Крутим диск, если заиграло
+            }).catch(e => console.error("Ошибка воспроизведения:", e));
+        }
+    });
+
+    async function save() {
+        const t = document.getElementById('tit').value;
+        const c = document.getElementById('con').value;
+        const cr = document.getElementById('crit').value;
+        const i = document.getElementById('img').files[0];
+        let base64 = "";
+        if(i) {
+            base64 = await new Promise(r => {
+                const f = new FileReader();
+                f.onload = () => r(f.result);
+                f.readAsDataURL(i);
+            });
+        }
+        await fetch('/api/notes', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({title: t, content: c, criteria: cr, image: base64})
+        });
+        location.reload();
+    }
+
+    async function load() {
+        try {
+            const r = await fetch('/api/notes');
+            const data = await r.json();
+            const l = document.getElementById('list');
+            l.innerHTML = data.reverse().map(n => `
+                <div class="glass-pill" data-val="${n.title.toLowerCase()}">
+                    <img src="${n.image || 'https://cataas.com/cat/says/Note'}" style="width:100%; border-radius:40px; margin-bottom:20px;">
+                    <span style="color:var(--accent); font-weight:900;">#${n.criteria}</span>
+                    <h3 style="margin: 10px 0;">${n.title}</h3>
+                    <p style="font-size:14px; opacity:0.8;">${n.content}</p>
+                </div>
+            `).join('');
+        } catch(e) {}
+    }
+
+    function filter(v) {
+        document.querySelectorAll('#list .glass-pill').forEach(c => {
+            c.style.display = c.dataset.val.includes(v.toLowerCase()) ? 'block' : 'none';
+        });
+    }
+
+    load();
+</script>
+</body>
+</html>

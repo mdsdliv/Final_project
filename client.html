@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Notes App</title>
+</head>
+<body>
+
+<h1>Student Notes App</h1>
+
+<input id="title" placeholder="Title"><br>
+<textarea id="content" placeholder="Note"></textarea><br>
+<button onclick="addNote()">Add</button>
+
+<div id="notes"></div>
+
+<script>
+async function loadNotes() {
+    const res = await fetch("http://localhost:5000/notes");
+    const notes = await res.json();
+
+    const div = document.getElementById("notes");
+    div.innerHTML = "";
+
+    notes.forEach(n => {
+        div.innerHTML += `<p><b>${n.title}</b>: ${n.content}</p>`;
+    });
+}
+
+async function addNote() {
+    const title = document.getElementById("title").value;
+    const content = document.getElementById("content").value;
+
+    await fetch("http://localhost:5000/notes", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({title, content})
+    });
+
+    loadNotes();
+}
+
+loadNotes();
+</script>
+
+</body>
+</html>
