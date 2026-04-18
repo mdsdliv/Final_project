@@ -224,12 +224,13 @@
 </section>
 
 <script>
+    // Анимация появления
     const obs = new IntersectionObserver((entries) => {
         entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('active'); });
     }, { threshold: 0.1 });
     document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
 
-    // ИСПРАВЛЕННАЯ МУЗЫКА
+    // Музыка
     const musicUpload = document.getElementById('music-upload');
     const player = document.getElementById('player');
     const musicIcon = document.getElementById('music-icon');
@@ -239,18 +240,20 @@
         if (file) {
             const url = URL.createObjectURL(file);
             player.src = url;
-            player.load(); // Обязательно загружаем
-            player.play().then(() => {
-                musicIcon.classList.add('fa-spin'); // Крутим диск, если заиграло
-            }).catch(e => console.error("Ошибка воспроизведения:", e));
+            player.load();
+            player.play().then(() => { musicIcon.classList.add('fa-spin'); });
         }
     });
 
+    // ИСПРАВЛЕННОЕ СОХРАНЕНИЕ И ЛОГИКА ПОСТОВ
     async function save() {
         const t = document.getElementById('tit').value;
         const c = document.getElementById('con').value;
         const cr = document.getElementById('crit').value;
         const i = document.getElementById('img').files[0];
+        
+        if(!t || !c) return alert("Заполни заголовок и текст!");
+
         let base64 = "";
         if(i) {
             base64 = await new Promise(r => {
@@ -259,33 +262,83 @@
                 f.readAsDataURL(i);
             });
         }
-        await fetch('/api/notes', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({title: t, content: c, criteria: cr, image: base64})
-        });
-        location.reload();
+
+        const newNote = {
+            id: Date.now(),
+            title: t,
+            content: c,
+            criteria: cr,
+            image: base64,
+            likes: 0,
+            comments: []
+        };
+
+        const notes = JSON.parse(localStorage.getItem('cloud_notes') || '[]');
+        notes.push(newNote);
+        localStorage.setItem('cloud_notes', JSON.stringify(notes));
+        
+        // Очищаем поля и обновляем список БЕЗ перезагрузки страницы
+        document.getElementById('tit').value = "";
+        document.getElementById('con').value = "";
+        load(); 
     }
 
-    async function load() {
-        try {
-            const r = await fetch('/api/notes');
-            const data = await r.json();
-            const l = document.getElementById('list');
-            l.innerHTML = data.reverse().map(n => `
-                <div class="glass-pill" data-val="${n.title.toLowerCase()}">
-                    <img src="${n.image || 'https://cataas.com/cat/says/Note'}" style="width:100%; border-radius:40px; margin-bottom:20px;">
-                    <span style="color:var(--accent); font-weight:900;">#${n.criteria}</span>
-                    <h3 style="margin: 10px 0;">${n.title}</h3>
-                    <p style="font-size:14px; opacity:0.8;">${n.content}</p>
+    function load(filterTag = "") {
+        const data = JSON.parse(localStorage.getItem('cloud_notes') || '[]');
+        const l = document.getElementById('list');
+        
+        const filtered = filterTag ? data.filter(n => n.criteria === filterTag) : data;
+
+        l.innerHTML = filtered.reverse().map(n => `
+            <div class="glass-pill" style="text-align:left;">
+                <img src="${n.image || 'https://cataas.com/cat/says/Note'}" style="width:100%; border-radius:30px; margin-bottom:15px;">
+                <span style="color:var(--accent); font-weight:900; cursor:pointer;" onclick="load('${n.criteria}')">#${n.criteria}</span>
+                <h3 style="margin: 10px 0;">${n.title}</h3>
+                <p style="font-size:14px; opacity:0.8; margin-bottom:20px;">${n.content}</p>
+                
+                <div style="border-top:1px solid rgba(255,255,255,0.1); padding-top:15px; display:flex; justify-content:space-between; align-items:center;">
+                    <button onclick="like(${n.id})" style="background:none; border:none; color:var(--pink); cursor:pointer;">
+                        <i class="fas fa-heart"></i> ${n.likes || 0}
+                    </button>
+                    <small style="opacity:0.5;">ID: ${n.id.toString().slice(-4)}</small>
                 </div>
-            `).join('');
-        } catch(e) {}
+                
+                <div style="margin-top:15px;">
+                    <input type="text" placeholder="Add comment..." 
+                        style="padding:10px; font-size:12px; border-radius:15px;" 
+                        onkeypress="if(event.key==='Enter') addComment(${n.id}, this.value)">
+                </div>
+            </div>
+        `).join('');
+    }
+
+    function like(id) {
+        const notes = JSON.parse(localStorage.getItem('cloud_notes') || '[]');
+        const note = notes.find(n => n.id === id);
+        if(note) {
+            note.likes = (note.likes || 0) + 1;
+            localStorage.setItem('cloud_notes', JSON.stringify(notes));
+            load();
+        }
+    }
+
+    function addComment(id, text) {
+        if(!text) return;
+        const notes = JSON.parse(localStorage.getItem('cloud_notes') || '[]');
+        const note = notes.find(n => n.id === id);
+        if(note) {
+            note.comments = note.comments || [];
+            note.comments.push(text);
+            localStorage.setItem('cloud_notes', JSON.stringify(notes));
+            alert("Comment added!"); // Для фидбека
+            load();
+        }
     }
 
     function filter(v) {
         document.querySelectorAll('#list .glass-pill').forEach(c => {
-            c.style.display = c.dataset.val.includes(v.toLowerCase()) ? 'block' : 'none';
+            const match = c.innerText.toLowerCase().includes(v.toLowerCase());
+            c.style.display = match ? 'block' : 'none';
         });
     }
 
