@@ -15,7 +15,7 @@
             --neon-glow: 0 0 15px rgba(34, 211, 238, 0.3);
         }
 
-        * { box-sizing: border-box; }
+        * { box-sizing: border-box; outline: none; }
         body {
             font-family: 'Montserrat', sans-serif;
             margin: 0; background: var(--bg); color: #fff;
@@ -28,14 +28,15 @@
             z-index: -1;
         }
 
+        /* Анимации появления */
         .reveal {
             opacity: 0;
-            transform: translateY(100px) scale(0.8) rotateX(-15deg);
-            transition: all 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+            transform: translateY(80px) scale(0.9);
+            transition: all 1s cubic-bezier(0.22, 1, 0.36, 1);
         }
         .reveal.active {
             opacity: 1;
-            transform: translateY(0) scale(1) rotateX(0deg);
+            transform: translateY(0) scale(1);
         }
 
         .side-nav {
@@ -47,11 +48,11 @@
             border-radius: 50%; border: 1px solid var(--accent);
             display: flex; align-items: center; justify-content: center;
             color: var(--accent); text-decoration: none; transition: 0.5s;
-            backdrop-filter: blur(10px); font-size: 20px;
+            backdrop-filter: blur(10px); font-size: 20px; cursor: pointer;
         }
-        .nav-btn:hover {
+        .nav-btn:hover, .nav-btn.active-cat {
             background: var(--accent); color: #000;
-            transform: scale(1.2) rotate(360deg);
+            transform: scale(1.1) rotate(5deg);
             box-shadow: 0 0 30px var(--accent);
         }
 
@@ -62,74 +63,84 @@
         .music-pill {
             background: var(--card); padding: 12px 25px; border-radius: 50px;
             border: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; gap: 15px;
-            box-shadow: var(--neon-glow);
+            box-shadow: var(--neon-glow); backdrop-filter: blur(10px);
         }
 
         section { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 100px 20px; }
 
         .main-capsule {
             background: var(--card); backdrop-filter: blur(30px);
-            width: 100%; max-width: 1100px; padding: 70px;
-            border-radius: 100px; text-align: center;
+            width: 100%; max-width: 1100px; padding: 60px;
+            border-radius: 80px; text-align: center;
             border: 1px solid rgba(255, 255, 255, 0.1);
             box-shadow: 0 50px 100px rgba(0,0,0,0.8);
             position: relative;
         }
 
-        h1 { font-size: clamp(50px, 9vw, 85px); font-weight: 900; margin: 0; background: linear-gradient(45deg, var(--accent), var(--pink)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        h2 { font-size: 40px; color: var(--accent); margin-bottom: 30px; }
+        h1 { font-size: clamp(40px, 8vw, 80px); font-weight: 900; margin: 0; background: linear-gradient(45deg, var(--accent), var(--pink)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        h2 { font-size: 36px; color: var(--accent); margin-bottom: 30px; }
         
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 35px; margin-top: 50px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 30px; margin-top: 40px; }
 
         .glass-pill {
-            background: rgba(255, 255, 255, 0.03); border-radius: 50px; padding: 40px;
-            border: 1px solid rgba(255, 255, 255, 0.05); transition: 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            position: relative;
+            background: rgba(255, 255, 255, 0.03); border-radius: 40px; padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.05); transition: 0.5s;
+            position: relative; text-align: left;
         }
         .glass-pill:hover {
-            transform: translateY(-20px) scale(1.05);
-            background: rgba(255, 255, 255, 0.08);
-            border-color: var(--accent);
-            box-shadow: var(--neon-glow);
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.07);
+            border-color: var(--pink);
         }
 
         input, textarea, select {
-            width: 100%; padding: 22px; margin: 12px 0; border-radius: 40px;
-            background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.1);
-            color: #fff; font-size: 16px; transition: 0.3s;
+            width: 100%; padding: 20px; margin: 10px 0; border-radius: 30px;
+            background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1);
+            color: #fff; font-family: inherit;
         }
-        input:focus { border-color: var(--pink); box-shadow: 0 0 15px var(--pink); }
+        input:focus { border-color: var(--accent); box-shadow: 0 0 15px var(--accent); }
 
         .btn-mega {
             background: linear-gradient(45deg, #3b82f6, #22d3ee);
-            color: #fff; padding: 22px 55px; border-radius: 50px;
+            color: #fff; padding: 20px 45px; border-radius: 50px;
             font-weight: 900; border: none; cursor: pointer; transition: 0.4s;
-            text-transform: uppercase; letter-spacing: 3px; display: inline-flex; align-items: center; gap: 15px;
+            text-transform: uppercase; letter-spacing: 2px; display: inline-flex; align-items: center; gap: 15px;
         }
-        .btn-mega:hover { letter-spacing: 6px; box-shadow: 0 0 40px var(--accent); transform: translateY(-5px); }
+        .btn-mega:hover { letter-spacing: 4px; box-shadow: 0 0 30px var(--accent); }
 
-        .cat-hero { width: 220px; height: 220px; border-radius: 80px; object-fit: cover; margin-bottom: 30px; border: 6px solid var(--accent); animation: float 4s ease-in-out infinite; }
+        .cat-hero { width: 200px; height: 200px; border-radius: 70px; object-fit: cover; margin-bottom: 20px; border: 4px solid var(--accent); animation: float 4s ease-in-out infinite; }
         
         @keyframes float { 
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-20px) rotate(5deg); }
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
         }
+
+        .category-menu {
+            display: flex; justify-content: center; gap: 15px; margin-bottom: 30px; flex-wrap: wrap;
+        }
+        .cat-tag {
+            padding: 10px 25px; border-radius: 20px; background: rgba(255,255,255,0.05);
+            cursor: pointer; border: 1px solid rgba(255,255,255,0.1); transition: 0.3s;
+        }
+        .cat-tag.active { background: var(--pink); border-color: var(--pink); font-weight: 700; }
+
+        .faq-item { text-align: left; margin-bottom: 20px; background: rgba(0,0,0,0.3); padding: 20px; border-radius: 25px; }
+        .faq-q { color: var(--accent); font-weight: 900; margin-bottom: 10px; display: block; }
     </style>
 </head>
 <body>
 
 <div class="side-nav">
     <a href="#p1" class="nav-btn"><i class="fas fa-home"></i></a>
-    <a href="#p2" class="nav-btn"><i class="fas fa-rocket"></i></a>
     <a href="#p3" class="nav-btn"><i class="fas fa-cloud"></i></a>
-    <a href="#p5" class="nav-btn"><i class="fas fa-icons"></i></a>
+    <a href="#p_faq" class="nav-btn"><i class="fas fa-question-circle"></i></a>
     <a href="#p7" class="nav-btn"><i class="fas fa-headset"></i></a>
 </div>
 
 <header>
     <div class="music-pill">
-        <i id="music-icon" class="fas fa-compact-disc" style="color: var(--accent);"></i>
-        <input type="file" id="music-upload" accept="audio/*" style="width: 120px; font-size: 10px;">
+        <i id="music-icon" class="fas fa-compact-disc"></i>
+        <input type="file" id="music-upload" accept="audio/*" style="width: 110px; font-size: 10px; opacity: 0.7;">
         <audio id="player" loop></audio>
     </div>
 </header>
@@ -137,63 +148,63 @@
 <section id="p1">
     <div class="main-capsule reveal">
         <img src="i ба чотка.jpeg" class="cat-hero" onerror="this.src='https://cataas.com/cat/cute'">
-        <h1>Student Notes</h1>
-        <p style="font-size: 22px; margin: 25px 0; opacity: 0.8;">Unicorns Cloud Ecosystem — where hard work meets digital beauty. <i class="fas fa-magic"></i></p>
-        <a href="#p2" class="btn-mega">Get Started <i class="fas fa-chevron-right"></i></a>
-    </div>
-</section>
-
-<section id="p2">
-    <div class="main-capsule reveal">
-        <h2>Our Superpowers <i class="fas fa-star" style="color: var(--pink)"></i></h2>
-        <div class="grid">
-            <div class="glass-pill">
-                <i class="fas fa-user-graduate fa-4x" style="color: var(--accent); margin-bottom: 20px;"></i>
-                <h3>For Legends</h3>
-                <p>Tailored specifically for KBTU students to organize complex data flows.</p>
-            </div>
-            <div class="glass-pill">
-                <i class="fas fa-cloud-moon fa-4x" style="color: var(--pink); margin-bottom: 20px;"></i>
-                <h3>Note Storage</h3>
-                <p>Never lose a thought. Our cloud capsule stores everything with cat-like precision.</p>
-            </div>
-            <div class="glass-pill">
-                <i class="fas fa-bolt fa-4x" style="color: #fbbf24; margin-bottom: 20px;"></i>
-                <h3>Finals Rush</h3>
-                <p>The ultimate revision tool for that last-minute repetition before the big fight.</p>
-            </div>
-        </div>
+        <h1>Cyber Notes</h1>
+        <p style="font-size: 20px; margin: 20px 0; opacity: 0.8;">Where KBTU legends keep their digital soul. <i class="fas fa-microchip"></i></p>
+        <a href="#p3" class="btn-mega">Open Cloud Keeper <i class="fas fa-chevron-right"></i></a>
     </div>
 </section>
 
 <section id="p3">
     <div class="main-capsule reveal">
-        <h2><i class="fas fa-database"></i> Cloud Keeper</h2>
-        <div class="glass-pill" style="margin-bottom: 40px;">
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-                <select id="crit"><option>Study</option><option>Motivation</option><option>Ideas</option></select>
-                <input type="text" id="tit" placeholder="Note Title...">
+        <h2><i class="fas fa-brain"></i> Cloud Keeper</h2>
+        
+        <div class="glass-pill" style="margin-bottom: 40px; border: 1px dashed var(--accent);">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                <select id="crit">
+                    <option value="Study">Study</option>
+                    <option value="Motivation">Motivation</option>
+                    <option value="Ideas">Ideas</option>
+                </select>
+                <input type="text" id="tit" placeholder="Title of knowledge...">
             </div>
-            <textarea id="con" rows="4" placeholder="Your secret knowledge..."></textarea>
+            <textarea id="con" rows="3" placeholder="Enter your notes or motivation text..."></textarea>
             <input type="file" id="img">
-            <button class="btn-mega" style="width: 100%; justify-content: center;" onclick="save()">Push to Universe <i class="fas fa-paper-plane"></i></button>
+            <button class="btn-mega" style="width: 100%; justify-content: center;" onclick="save()">Save Note <i class="fas fa-plus-circle"></i></button>
         </div>
-        <input type="text" placeholder="🔍 Search through the cloud..." onkeyup="filter(this.value)">
-        <div id="list" class="grid"></div>
+
+        <div class="category-menu">
+            <div class="cat-tag active" onclick="filterNotes('All', this)">All</div>
+            <div class="cat-tag" onclick="filterNotes('Study', this)">Study</div>
+            <div class="cat-tag" onclick="filterNotes('Motivation', this)">Motivation</div>
+            <div class="cat-tag" onclick="filterNotes('Ideas', this)">Ideas</div>
+        </div>
+
+        <input type="text" placeholder="🔍 Live search..." onkeyup="searchNotes(this.value)" style="margin-bottom: 20px;">
+        
+        <div id="list" class="grid">
+            </div>
     </div>
 </section>
 
-<section id="p4">
+<section id="p_faq">
     <div class="main-capsule reveal">
-        <h2>Cat Energy <i class="fas fa-paw"></i></h2>
+        <h2><i class="fas fa-comments"></i> Questions & Answers</h2>
         <div class="grid">
-            <div class="glass-pill">
-                <img src="Michi explocion xdd.jpeg" style="width:100%; border-radius: 40px;" onerror="this.src='https://cataas.com/cat/funny'">
-                <p style="margin-top:25px; font-weight: 700;">"Coding is poetry in motion." <i class="fas fa-code"></i></p>
+            <div class="faq-item">
+                <span class="faq-q">Q: How to stay focused during finals?</span>
+                <p>A: Use the Pomodoro technique and keep your "Cyber Notes" open for quick repetition.</p>
             </div>
-            <div class="glass-pill">
-                <img src="Котэк #3.jpeg" style="width:100%; border-radius: 40px;" onerror="this.src='https://cataas.com/cat/says/Focus'">
-                <p style="margin-top:25px; font-weight: 700;">"Hard work always pays off." <i class="fas fa-gem"></i></p>
+            <div class="faq-item">
+                <span class="faq-q">Q: Where is my data stored?</span>
+                <p>A: Everything is saved in your local cloud (LocalStorage), so it stays on your device even after refresh!</p>
+            </div>
+            <div class="faq-item">
+                <span class="faq-q">Q: Can I add my own motivation?</span>
+                <p>A: Yes! Just choose the 'Motivation' category and it will appear for everyone in the list below.</p>
+            </div>
+            <div class="faq-item">
+                <span class="faq-q">Q: Is this only for KBTU students?</span>
+                <p>A: It's made by KBTU for everyone who loves digital aesthetics and organized study.</p>
             </div>
         </div>
     </div>
@@ -201,159 +212,128 @@
 
 <section id="p7">
     <div class="main-capsule reveal">
-        <h2>Connect Unicorns <i class="fas fa-headset"></i></h2>
+        <h2>Connect <i class="fas fa-headset"></i></h2>
         <div class="grid">
             <div class="glass-pill">
-                <i class="fas fa-laptop-code fa-2x"></i>
-                <p><b>Nuraylym (Dev)</b><br>87075305009</p>
+                <i class="fas fa-laptop-code fa-2x" style="color: var(--accent);"></i>
+                <p><b>Nuraylym</b><br>Developer</p>
             </div>
             <div class="glass-pill">
-                <i class="fab fa-telegram-plane fa-2x"></i>
-                <p><b>Leader</b><br>@Asellyyya</p>
+                <i class="fab fa-telegram-plane fa-2x" style="color: var(--pink);"></i>
+                <p><b>Aselya</b><br>@Asellyyya</p>
             </div>
             <div class="glass-pill">
-                <i class="fas fa-palette fa-2x"></i>
-                <p><b>Designer</b><br>@bmadina23</p>
+                <i class="fas fa-palette fa-2x" style="color: #fbbf24;"></i>
+                <p><b>Madina</b><br>@bmadina23</p>
             </div>
         </div>
-        <div class="glass-pill" style="margin-top: 30px; border: 2px dashed var(--accent);">
-            <p><i class="fas fa-university"></i> <b>KBTU Professor:</b> s.yoldash@kbtu.kz</p>
-            <small>Contact us for extra help or to share your bright ideas!</small>
-        </div>
+        <p style="margin-top: 30px; opacity: 0.6;"><i class="fas fa-envelope"></i> s.yoldash@kbtu.kz</p>
     </div>
 </section>
 
 <script>
+    // Плавное появление элементов
     const obs = new IntersectionObserver((entries) => {
         entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('active'); });
     }, { threshold: 0.1 });
     document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
 
-    // Музыка (оставляем как было)
+    // МУЗЫКА (Исправлено: теперь играет сразу)
     const musicUpload = document.getElementById('music-upload');
     const player = document.getElementById('player');
     const musicIcon = document.getElementById('music-icon');
+
     musicUpload.addEventListener('change', function() {
         const file = this.files[0];
         if (file) {
             const url = URL.createObjectURL(file);
-            player.src = url; player.load();
-            player.play().then(() => { musicIcon.classList.add('fa-spin'); });
+            player.src = url;
+            player.play().then(() => {
+                musicIcon.classList.add('fa-spin');
+                musicIcon.style.color = "var(--pink)";
+            }).catch(err => console.log("Music play error:", err));
         }
     });
 
-    // --- ГЛАВНАЯ ЛОГИКА ТУТ ---
+    // ЛОГИКА ЗАМЕТОК (LocalStorage - данные не пропадут!)
+    let notes = JSON.parse(localStorage.getItem('my_cloud_notes')) || [];
 
-    // Функция сохранения (теперь в Облако/LocalStorage)
     async function save() {
-        const t = document.getElementById('tit').value;
-        const c = document.getElementById('con').value;
-        const cr = document.getElementById('crit').value;
-        const i = document.getElementById('img').files[0];
+        const title = document.getElementById('tit').value;
+        const content = document.getElementById('con').value;
+        const category = document.getElementById('crit').value;
+        const imgInput = document.getElementById('img').files[0];
 
-        if(!t || !c) return alert("Write something first!");
+        if(!title || !content) { alert("Please fill title and content!"); return; }
 
-        let base64 = "";
-        if(i) {
-            base64 = await new Promise(r => {
-                const f = new FileReader();
-                f.onload = () => r(f.result);
-                f.readAsDataURL(i);
+        let imgBase64 = "";
+        if(imgInput) {
+            imgBase64 = await new Promise(resolve => {
+                const reader = new FileReader();
+                reader.onload = () => resolve(reader.result);
+                reader.readAsDataURL(imgInput);
             });
         }
 
         const newNote = {
             id: Date.now(),
-            title: t,
-            content: c,
-            criteria: cr,
-            image: base64,
-            likes: 0,
-            comments: []
+            title: title,
+            content: content,
+            category: category,
+            image: imgBase64 || 'https://cataas.com/cat/says/Note'
         };
 
-        // Забираем старые данные, добавляем новую заметку
-        const notes = JSON.parse(localStorage.getItem('my_cloud_notes') || '[]');
         notes.push(newNote);
         localStorage.setItem('my_cloud_notes', JSON.stringify(notes));
-
-        // Очищаем поля
+        
+        // Очистка полей
         document.getElementById('tit').value = "";
         document.getElementById('con').value = "";
         
-        // Обновляем список мгновенно БЕЗ перезагрузки страницы
-        load();
-        
-        // Скроллим к списку, чтобы увидеть результат
-        document.getElementById('list').scrollIntoView({behavior: 'smooth'});
+        renderNotes();
     }
 
-    // Функция загрузки и фильтрации по категориям
-    function load(filterType = 'All') {
-        const data = JSON.parse(localStorage.getItem('my_cloud_notes') || '[]');
-        const l = document.getElementById('list');
-        
-        // Если выбрана категория, фильтруем
-        const filtered = filterType === 'All' ? data : data.filter(n => n.criteria === filterType);
+    function renderNotes(filter = 'All') {
+        const list = document.getElementById('list');
+        list.innerHTML = "";
 
-        l.innerHTML = filtered.reverse().map(n => `
-            <div class="glass-pill reveal active" style="text-align: left; padding: 25px;">
-                <img src="${n.image || 'https://cataas.com/cat/cute'}" style="width:100%; border-radius:30px; margin-bottom:15px;">
-                <div style="display: flex; justify-content: space-between; align-items: center;">
-                    <span style="color:var(--accent); font-weight:900; background: rgba(34, 211, 238, 0.1); padding: 5px 15px; border-radius: 20px;">#${n.criteria}</span>
-                    <button onclick="like(${n.id})" style="background:none; border:none; color:var(--pink); cursor:pointer;">
-                        <i class="fas fa-heart"></i> ${n.likes || 0}
-                    </button>
+        const filtered = filter === 'All' ? notes : notes.filter(n => n.category === filter);
+
+        filtered.slice().reverse().forEach(n => {
+            const card = document.createElement('div');
+            card.className = "glass-pill reveal active";
+            card.setAttribute('data-title', n.title.toLowerCase());
+            card.innerHTML = `
+                <img src="${n.image}" style="width:100%; border-radius:25px; margin-bottom:15px; height: 180px; object-fit: cover;">
+                <span style="color:var(--pink); font-size:12px; font-weight:900;">#${n.category}</span>
+                <h3 style="margin: 10px 0; color: var(--accent);">${n.title}</h3>
+                <p style="font-size:14px; opacity:0.8; line-height:1.6;">${n.content}</p>
+                <div style="margin-top:15px; display:flex; gap:10px;">
+                    <i class="fas fa-heart" style="cursor:pointer;" onclick="this.style.color='var(--pink)'"></i>
+                    <i class="fas fa-comment" style="cursor:pointer;"></i>
                 </div>
-                <h3 style="margin: 15px 0 10px 0;">${n.title}</h3>
-                <p style="font-size:14px; opacity:0.8; line-height: 1.6;">${n.content}</p>
-                
-                <div style="margin-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px;">
-                    <div id="comments-${n.id}" style="font-size: 12px; margin-bottom: 10px;">
-                        ${n.comments.map(com => `<p style="margin: 5px 0; opacity: 0.6;"><i class="fas fa-comment"></i> ${com}</p>`).join('')}
-                    </div>
-                    <input type="text" placeholder="Write a comment..." 
-                        style="padding: 10px 20px; font-size: 12px; height: 35px; margin: 0;"
-                        onkeypress="if(event.key==='Enter') addComment(${n.id}, this)">
-                </div>
-            </div>
-        `).join('');
+            `;
+            list.appendChild(card);
+        });
     }
 
-    // Доп. функции для интерактивности
-    function like(id) {
-        let notes = JSON.parse(localStorage.getItem('my_cloud_notes') || '[]');
-        const note = notes.find(n => n.id === id);
-        if(note) {
-            note.likes = (note.likes || 0) + 1;
-            localStorage.setItem('my_cloud_notes', JSON.stringify(notes));
-            load();
-        }
+    function filterNotes(cat, el) {
+        document.querySelectorAll('.cat-tag').forEach(t => t.classList.remove('active'));
+        el.classList.add('active');
+        renderNotes(cat);
     }
 
-    function addComment(id, input) {
-        if(!input.value) return;
-        let notes = JSON.parse(localStorage.getItem('my_cloud_notes') || '[]');
-        const note = notes.find(n => n.id === id);
-        if(note) {
-            note.comments.push(input.value);
-            localStorage.setItem('my_cloud_notes', JSON.stringify(notes));
-            input.value = "";
-            load();
-        }
+    function searchNotes(val) {
+        const query = val.toLowerCase();
+        document.querySelectorAll('#list .glass-pill').forEach(card => {
+            const title = card.getAttribute('data-title');
+            card.style.display = title.includes(query) ? 'block' : 'none';
+        });
     }
 
-    // Поиск по тексту
-    function filter(v) {
-        const data = JSON.parse(localStorage.getItem('my_cloud_notes') || '[]');
-        const filtered = data.filter(n => n.title.toLowerCase().includes(v.toLowerCase()) || n.content.toLowerCase().includes(v.toLowerCase()));
-        // Отображаем отфильтрованное
-        const l = document.getElementById('list');
-        l.innerHTML = filtered.reverse().map(n => `...`).join(''); // Упрощено для краткости, использует ту же логику что load()
-    }
-
-    // При загрузке страницы показываем всё
-    window.onload = () => load('All');
+    // Первичная загрузка
+    renderNotes();
 </script>
+
 </body>
 </html>
