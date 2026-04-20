@@ -3,145 +3,149 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Unicorns | Student Notes Ecosystem</title>
+    <title>Unicorns | Student Notes App</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700;900&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg: #020617;
-            --card: rgba(30, 41, 59, 0.6);
+            --card: rgba(30, 41, 59, 0.5);
             --accent: #22d3ee;
             --pink: #f472b6;
             --yellow: #fbbf24;
-            --glass: rgba(255, 255, 255, 0.05);
+            --text: #f8fafc;
         }
 
         * { box-sizing: border-box; outline: none; }
         body {
             font-family: 'Montserrat', sans-serif;
-            margin: 0; background: var(--bg); color: #fff;
+            margin: 0; background: var(--bg); color: var(--text);
             scroll-behavior: smooth; overflow-x: hidden;
         }
 
         /* Анимированный фон */
-        .universe-bg {
+        .stars-bg {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: radial-gradient(circle at 50% 50%, #1e293b 0%, #020617 100%);
             z-index: -1;
         }
 
-        /* Эффекты появления (Reveal) */
+        /* Reveal Animation */
         .reveal {
             opacity: 0;
-            transform: translateY(60px) scale(0.95);
-            transition: all 1s cubic-bezier(0.17, 0.67, 0.83, 0.67);
+            transform: translateY(50px);
+            transition: all 0.8s ease-out;
         }
         .reveal.active {
             opacity: 1;
-            transform: translateY(0) scale(1);
+            transform: translateY(0);
         }
 
-        /* Навигация */
-        .side-nav {
+        /* Navigation */
+        .nav-bar {
             position: fixed; left: 20px; top: 50%; transform: translateY(-50%);
             z-index: 1000; display: flex; flex-direction: column; gap: 15px;
         }
-        .nav-btn {
+        .nav-link {
             width: 50px; height: 50px; background: var(--card);
-            border-radius: 50%; border: 1px solid var(--accent);
+            border-radius: 50%; border: 1px solid rgba(34, 211, 238, 0.3);
             display: flex; align-items: center; justify-content: center;
             color: var(--accent); text-decoration: none; transition: 0.4s;
             backdrop-filter: blur(10px);
         }
-        .nav-btn:hover {
-            background: var(--accent); color: #000;
-            transform: scale(1.2) rotate(15deg);
+        .nav-link:hover {
+            background: var(--accent); color: #000; transform: scale(1.2);
             box-shadow: 0 0 20px var(--accent);
         }
 
-        /* Музыкальный блок */
+        /* Music Header */
         header {
             position: fixed; top: 0; width: 100%; padding: 20px 5%;
             display: flex; justify-content: flex-end; z-index: 999;
         }
         .music-player {
             background: var(--card); padding: 10px 20px; border-radius: 40px;
-            border: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; gap: 12px;
-            box-shadow: 0 0 15px rgba(34, 211, 238, 0.2);
+            border: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; gap: 15px;
+            backdrop-filter: blur(15px); box-shadow: 0 0 20px rgba(0,0,0,0.5);
         }
-        .fa-compact-disc.spin { animation: fa-spin 2s linear infinite; color: var(--pink); }
+        .music-btns i { cursor: pointer; transition: 0.3s; }
+        .music-btns i:hover { color: var(--pink); }
 
-        section { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 100px 20px; }
+        section { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 100px 10%; }
 
-        .glass-box {
-            background: var(--card); backdrop-filter: blur(20px);
-            width: 100%; max-width: 1100px; padding: 50px;
-            border-radius: 50px; text-align: center;
+        .glass-panel {
+            background: var(--card); backdrop-filter: blur(25px);
+            width: 100%; max-width: 1100px; padding: 60px;
+            border-radius: 60px; text-align: center;
             border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+            box-shadow: 0 40px 100px rgba(0,0,0,0.6);
         }
 
-        h1 { font-size: clamp(40px, 7vw, 80px); font-weight: 900; margin: 0; background: linear-gradient(to right, var(--accent), var(--pink)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        h2 { font-size: 32px; color: var(--accent); margin-bottom: 30px; }
+        h1 { font-size: clamp(40px, 8vw, 80px); font-weight: 900; margin: 0; background: linear-gradient(45deg, var(--accent), var(--pink)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        h2 { font-size: 35px; color: var(--accent); margin-bottom: 30px; text-transform: uppercase; }
 
-        .cat-frame { width: 180px; height: 180px; border-radius: 50%; border: 4px solid var(--accent); object-fit: cover; margin-bottom: 20px; animation: float 3s ease-in-out infinite; }
-        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
-
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 25px; margin-top: 30px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; margin-top: 30px; }
         
         .card {
-            background: var(--glass); border-radius: 30px; padding: 30px;
-            border: 1px solid rgba(255,255,255,0.05); transition: 0.4s;
+            background: rgba(255, 255, 255, 0.03); border-radius: 30px; padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.05); transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        .card:hover { transform: translateY(-10px); border-color: var(--accent); background: rgba(255,255,255,0.08); }
+        .card:hover { transform: translateY(-15px); border-color: var(--accent); background: rgba(255,255,255,0.08); box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
 
-        /* Формы и кнопки */
+        /* Buttons & Forms */
         input, textarea, select {
             width: 100%; padding: 18px; margin: 10px 0; border-radius: 20px;
             background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1); color: #fff;
         }
-        .btn {
+        .btn-main {
             background: linear-gradient(45deg, #3b82f6, #22d3ee);
-            color: #fff; padding: 18px 40px; border-radius: 50px;
-            border: none; cursor: pointer; font-weight: 900; text-transform: uppercase;
-            transition: 0.3s; display: inline-flex; align-items: center; gap: 10px;
+            color: #fff; padding: 18px 45px; border-radius: 50px;
+            border: none; cursor: pointer; font-weight: 700; text-transform: uppercase;
+            transition: 0.4s; display: inline-flex; align-items: center; gap: 10px;
         }
-        .btn:hover { letter-spacing: 2px; box-shadow: 0 0 25px var(--accent); }
+        .btn-main:hover { letter-spacing: 2px; transform: scale(1.05); box-shadow: 0 0 30px var(--accent); }
 
-        /* FAQ Accordeon */
-        .faq-item { text-align: left; background: rgba(0,0,0,0.2); margin-bottom: 10px; border-radius: 20px; overflow: hidden; }
-        .faq-q { padding: 20px; cursor: pointer; display: flex; justify-content: space-between; font-weight: 700; color: var(--accent); }
-        .faq-a { padding: 0 20px; max-height: 0; overflow: hidden; transition: 0.3s ease; opacity: 0; }
-        .faq-item.open .faq-a { padding: 20px; max-height: 200px; opacity: 1; border-top: 1px solid rgba(255,255,255,0.1); }
+        /* FAQ Accordion */
+        .faq-item { text-align: left; background: rgba(0,0,0,0.2); margin-bottom: 12px; border-radius: 20px; cursor: pointer; }
+        .faq-header { padding: 20px; display: flex; justify-content: space-between; align-items: center; font-weight: 700; }
+        .faq-body { padding: 0 20px; max-height: 0; overflow: hidden; transition: 0.4s; opacity: 0; border-top: 0px solid transparent; }
+        .faq-item.active .faq-body { padding: 20px; max-height: 200px; opacity: 1; border-top: 1px solid rgba(255,255,255,0.1); }
+
+        .cat-hero { width: 220px; height: 220px; border-radius: 80px; object-fit: cover; border: 6px solid var(--accent); margin-bottom: 20px; animation: bounce 4s infinite; }
+        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
     </style>
 </head>
 <body>
 
-<div class="universe-bg"></div>
+<div class="stars-bg"></div>
 
-<nav class="side-nav">
-    <a href="#home" class="nav-btn"><i class="fas fa-home"></i></a>
-    <a href="#about" class="nav-btn"><i class="fas fa-info"></i></a>
-    <a href="#cloud" class="nav-btn"><i class="fas fa-cloud"></i></a>
-    <a href="#search" class="nav-btn"><i class="fas fa-search"></i></a>
-    <a href="#motivation" class="nav-btn"><i class="fas fa-heart"></i></a>
-    <a href="#faq" class="nav-btn"><i class="fas fa-question"></i></a>
-    <a href="#contact" class="nav-btn"><i class="fas fa-envelope"></i></a>
+<nav class="nav-bar">
+    <a href="#home" class="nav-link"><i class="fas fa-home"></i></a>
+    <a href="#about" class="nav-link"><i class="fas fa-info-circle"></i></a>
+    <a href="#cloud" class="nav-link"><i class="fas fa-cloud-upload-alt"></i></a>
+    <a href="#search" class="nav-link"><i class="fas fa-search"></i></a>
+    <a href="#motivation" class="nav-link"><i class="fas fa-paw"></i></a>
+    <a href="#faq" class="nav-link"><i class="fas fa-question-circle"></i></a>
+    <a href="#contact" class="nav-link"><i class="fas fa-envelope"></i></a>
 </nav>
 
 <header>
     <div class="music-player">
-        <i id="m-icon" class="fas fa-compact-disc fa-lg"></i>
-        <input type="file" id="m-upload" accept="audio/*" style="width: 100px; font-size: 10px;">
-        <audio id="audio-engine" loop></audio>
+        <i id="disc" class="fas fa-compact-disc fa-2x"></i>
+        <input type="file" id="m-up" accept="audio/*" style="width: 100px; font-size: 10px;">
+        <div class="music-btns">
+            <i class="fas fa-play" onclick="controlMusic('play')"></i>
+            <i class="fas fa-pause" onclick="controlMusic('pause')"></i>
+        </div>
+        <audio id="audio" loop></audio>
     </div>
 </header>
 
 <section id="home">
-    <div class="glass-box reveal">
-        <img src="https://cataas.com/cat/says/Hello" class="cat-frame">
+    <div class="glass-panel reveal">
+        <img src="https://cataas.com/cat/says/Welcome" class="cat-hero">
         <h1>Student Notes App</h1>
-        <p style="font-size: 20px; opacity: 0.8; margin: 20px 0;">Welcome to Unicorns Ecosystem. Enjoy the magic of productivity!</p>
+        <p style="font-size: 22px; margin: 20px 0; font-weight: 300;">Welcome to the <b>Unicorns</b> space. Organize your studies with a touch of magic.</p>
         <div class="grid" style="grid-template-columns: repeat(3, 1fr);">
             <img src="https://cataas.com/cat/cute?1" style="width:100%; border-radius:20px;">
             <img src="https://cataas.com/cat/cute?2" style="width:100%; border-radius:20px;">
@@ -151,56 +155,66 @@
 </section>
 
 <section id="about">
-    <div class="glass-box reveal">
-        <h2>Features & Magic <i class="fas fa-wand-sparkles"></i></h2>
+    <div class="glass-panel reveal">
+        <h2>Features & Insights <i class="fas fa-star"></i></h2>
         <div class="grid">
             <div class="card">
-                <i class="fas fa-bolt fa-3x" style="color: var(--yellow)"></i>
-                <h3>Lightning Fast</h3>
-                <p>Instant access to your thoughts and study materials.</p>
+                <i class="fas fa-heart fa-2x" style="color: var(--pink)"></i>
+                <h3>Польза</h3>
+                <p>Мы помогаем структурировать хаос учебных будней в один клик.</p>
             </div>
             <div class="card">
-                <i class="fas fa-brain fa-3x" style="color: var(--pink)"></i>
-                <h3>Smart Storage</h3>
-                <p>Advanced categorization for complex KBTU courses.</p>
+                <i class="fas fa-hand-pointer fa-2x" style="color: var(--accent)"></i>
+                <h3>Удобство</h3>
+                <p>Интуитивный интерфейс, понятный даже котику.</p>
             </div>
             <div class="card">
-                <i class="fas fa-shield-alt fa-3x" style="color: var(--accent)"></i>
-                <h3>100% Secure</h3>
-                <p>Your notes are stored locally on your device.</p>
+                <i class="fas fa-bolt fa-2x" style="color: var(--yellow)"></i>
+                <h3>Скорость</h3>
+                <p>Создание заметок быстрее, чем заканчивается перемена.</p>
+            </div>
+            <div class="card">
+                <i class="fas fa-shield-alt fa-2x" style="color: #4ade80"></i>
+                <h3>Безопасность</h3>
+                <p>Ваши данные хранятся только в вашем облаке LocalStorage.</p>
+            </div>
+            <div class="card">
+                <i class="fas fa-leaf fa-2x" style="color: #a78bfa"></i>
+                <h3>Простота</h3>
+                <p>Никаких лишних кнопок — только вы и ваши знания.</p>
             </div>
         </div>
     </div>
 </section>
 
 <section id="cloud">
-    <div class="glass-box reveal">
-        <h2><i class="fas fa-cloud-upload-alt"></i> Add to Universe</h2>
+    <div class="glass-panel reveal">
+        <h2><i class="fas fa-cloud"></i> Digital Cloud</h2>
         <div class="card" style="border: 1px dashed var(--accent);">
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-                <input type="text" id="n-title" placeholder="Note Title...">
+                <input type="text" id="n-tit" placeholder="Title...">
                 <select id="n-cat">
                     <option>Study</option>
                     <option>Ideas</option>
                     <option>Personal</option>
                 </select>
             </div>
-            <textarea id="n-text" rows="3" placeholder="Write your secret knowledge..."></textarea>
-            <input type="text" id="n-keys" placeholder="Keywords (comma separated)...">
-            <button class="btn" style="width:100%; justify-content:center;" onclick="saveNote()">Save to Cloud <i class="fas fa-plus"></i></button>
+            <textarea id="n-con" rows="4" placeholder="Your secret knowledge..."></textarea>
+            <input type="text" id="n-tag" placeholder="Keywords (tags)...">
+            <button class="btn-main" style="width: 100%; justify-content: center;" onclick="addNote()">Push to Cloud <i class="fas fa-paper-plane"></i></button>
         </div>
     </div>
 </section>
 
 <section id="search">
-    <div class="glass-box reveal">
+    <div class="glass-panel reveal">
         <h2><i class="fas fa-search"></i> Memory Search</h2>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px;">
-            <input type="text" placeholder="By Title..." onkeyup="searchBy('title', this.value)">
-            <input type="date" onchange="searchBy('date', this.value)">
-            <input type="text" placeholder="By Keywords..." onkeyup="searchBy('keys', this.value)">
-            <select onchange="searchBy('cat', this.value)">
-                <option value="">All Categories</option>
+        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 30px;">
+            <input type="text" placeholder="🔍 Search by Title..." onkeyup="doSearch('title', this.value)">
+            <input type="date" onchange="doSearch('date', this.value)">
+            <input type="text" placeholder="🏷️ Search by Tags..." onkeyup="doSearch('tags', this.value)">
+            <select onchange="doSearch('cat', this.value)">
+                <option value="">Filter by Category</option>
                 <option>Study</option>
                 <option>Ideas</option>
                 <option>Personal</option>
@@ -211,48 +225,55 @@
 </section>
 
 <section id="motivation">
-    <div class="glass-box reveal">
-        <h2>Cat-ivation <i class="fas fa-fire"></i></h2>
+    <div class="glass-panel reveal">
+        <h2>Daily Vibe <i class="fas fa-paw"></i></h2>
         <div class="grid">
             <div class="card">
-                <img src="https://cataas.com/cat/says/Keep%20Going" style="width:100%; border-radius:20px; margin-bottom:15px;">
-                <p style="font-style: italic;">"Coding is the language of the future. Don't stop until you're proud!"</p>
+                <img src="https://cataas.com/cat/says/Focus" style="width: 100%; border-radius: 20px;">
+                <p style="margin-top: 15px; font-style: italic;">"Ваш успех зависит только от вашей решимости. Учитесь как профи!"</p>
             </div>
             <div class="card">
-                <img src="https://cataas.com/cat/says/Focus" style="width:100%; border-radius:20px; margin-bottom:15px;">
-                <p style="font-style: italic;">"Success is not final, failure is not fatal: it is the courage to continue that counts."</p>
+                <img src="https://cataas.com/cat/says/Dream%20Big" style="width: 100%; border-radius: 20px;">
+                <p style="margin-top: 15px; font-style: italic;">"Большие цели требуют маленьких шагов каждый день. Не сдавайтесь!"</p>
             </div>
         </div>
     </div>
 </section>
 
 <section id="faq">
-    <div class="glass-box reveal">
-        <h2>FAQ <i class="fas fa-comments"></i></h2>
-        <div class="faq-item">
-            <div class="faq-q" onclick="toggleFaq(this)">How do I save music? <i class="fas fa-chevron-down"></i></div>
-            <div class="faq-a">Upload your MP3 via the top-right icon. It will play instantly!</div>
+    <div class="glass-panel reveal">
+        <h2>FAQ <i class="fas fa-question-circle"></i></h2>
+        <div class="faq-item" onclick="toggleFaq(this)">
+            <div class="faq-header">How to save music? <i class="fas fa-chevron-down"></i></div>
+            <div class="faq-body">Just upload any MP3 file in the top right corner. It stays as long as the page is open!</div>
         </div>
-        <div class="faq-item">
-            <div class="faq-q" onclick="toggleFaq(this)">Where are my notes? <i class="fas fa-chevron-down"></i></div>
-            <div class="faq-a">They are in the "Search" section. You can filter them by 4 different ways!</div>
+        <div class="faq-item" onclick="toggleFaq(this)">
+            <div class="faq-header">Where are my notes stored? <i class="fas fa-chevron-down"></i></div>
+            <div class="faq-body">Everything is saved in your browser's LocalStorage. Private and safe.</div>
         </div>
-        <div class="faq-item">
-            <div class="faq-q" onclick="toggleFaq(this)">Is this app free? <i class="fas fa-chevron-down"></i></div>
-            <div class="faq-a">Yes, created by Unicorns specifically for KBTU students.</div>
+        <div class="faq-item" onclick="toggleFaq(this)">
+            <div class="faq-header">Can I delete a note? <i class="fas fa-chevron-down"></i></div>
+            <div class="faq-body">Yes, each note card in the Search section has a delete button.</div>
         </div>
     </div>
 </section>
 
 <section id="contact">
-    <div class="glass-box reveal">
-        <h2>Contact Us <i class="fas fa-paper-plane"></i></h2>
-        <div class="card">
-            <input type="text" placeholder="Your Name">
-            <textarea rows="4" placeholder="Your Idea or Feedback..."></textarea>
-            <button class="btn">Send to Unicorns <i class="fas fa-ghost"></i></button>
+    <div class="glass-panel reveal">
+        <h2>Contact Unicorns <i class="fas fa-envelope"></i></h2>
+        <div class="grid" style="text-align: left; font-size: 14px;">
+            <div class="card">
+                <p><b>Team Leader:</b> Aselya (@Asellyyya)</p>
+                <p><b>Designer:</b> Madina (@bmadina23)</p>
+                <p><b>Developers:</b> Unicorns Dev Team</p>
+                <p><b>Teacher:</b> s.yoldash@kbtu.kz</p>
+            </div>
+            <div class="card">
+                <input type="text" placeholder="Your Name">
+                <textarea rows="3" placeholder="Message or Idea..."></textarea>
+                <button class="btn-main" style="width: 100%; justify-content: center;">Send Message</button>
+            </div>
         </div>
-        <p style="margin-top: 30px; opacity: 0.6;">Follow us: @Asellyyya | @bmadina23</p>
     </div>
 </section>
 
@@ -263,72 +284,84 @@
     }, { threshold: 0.1 });
     document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
 
-    // MUSIC
-    const mInput = document.getElementById('m-upload');
-    const player = document.getElementById('audio-engine');
-    const mIcon = document.getElementById('m-icon');
+    // MUSIC CONTROL
+    const audio = document.getElementById('audio');
+    const mUp = document.getElementById('m-up');
+    const disc = document.getElementById('disc');
 
-    mInput.addEventListener('change', function() {
+    mUp.addEventListener('change', function() {
         const file = this.files[0];
         if(file) {
-            player.src = URL.createObjectURL(file);
-            player.play();
-            mIcon.classList.add('spin');
+            audio.src = URL.createObjectURL(file);
+            audio.play();
+            disc.classList.add('fa-spin');
         }
     });
 
-    // FAQ Toggle
-    function toggleFaq(el) {
-        el.parentElement.classList.toggle('open');
+    function controlMusic(action) {
+        if(action === 'play') { audio.play(); disc.classList.add('fa-spin'); }
+        else { audio.pause(); disc.classList.remove('fa-spin'); }
     }
 
-    // STORAGE & SEARCH
-    let notes = JSON.parse(localStorage.getItem('uni_notes')) || [];
+    // FAQ Toggle
+    function toggleFaq(el) {
+        el.classList.toggle('active');
+    }
 
-    function saveNote() {
-        const title = document.getElementById('n-title').value;
-        const text = document.getElementById('n-text').value;
-        const cat = document.getElementById('n-cat').value;
-        const keys = document.getElementById('n-keys').value;
+    // CLOUD LOGIC
+    let notes = JSON.parse(localStorage.getItem('uni_data')) || [];
 
-        if(!title || !text) return alert("Fill fields!");
+    function addNote() {
+        const title = document.getElementById('n-tit').value;
+        const content = document.getElementById('n-con').value;
+        const category = document.getElementById('n-cat').value;
+        const tags = document.getElementById('n-tag').value;
+        const date = new Date().toISOString().split('T')[0];
 
-        const note = {
-            id: Date.now(),
-            title, text, cat, keys,
-            date: new Date().toISOString().split('T')[0]
-        };
+        if(!title || !content) return alert("Please fill all fields!");
 
-        notes.push(note);
-        localStorage.setItem('uni_notes', JSON.stringify(notes));
-        alert("Saved to Universe!");
+        notes.push({ id: Date.now(), title, content, category, tags, date });
+        localStorage.setItem('uni_data', JSON.stringify(notes));
+        
+        document.getElementById('n-tit').value = "";
+        document.getElementById('n-con').value = "";
+        
+        alert("Saved!");
         renderNotes();
     }
 
     function renderNotes(data = notes) {
-        const res = document.getElementById('results');
-        res.innerHTML = data.map(n => `
+        const box = document.getElementById('results');
+        box.innerHTML = data.slice().reverse().map(n => `
             <div class="card">
-                <span style="color:var(--accent); font-size:10px;">${n.date} | #${n.cat}</span>
+                <small style="color:var(--accent)">${n.date} | #${n.category}</small>
                 <h4 style="margin:10px 0;">${n.title}</h4>
-                <p style="font-size:12px; opacity:0.7;">${n.text}</p>
-                <small style="color:var(--pink)">${n.keys}</small>
+                <p style="font-size:13px; opacity:0.8;">${n.content}</p>
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-top:15px;">
+                    <span style="font-size:10px; color:var(--pink)">${n.tags}</span>
+                    <i class="fas fa-trash" style="cursor:pointer; opacity:0.5;" onclick="delNote(${n.id})"></i>
+                </div>
             </div>
         `).join('');
     }
 
-    function searchBy(type, val) {
+    function delNote(id) {
+        notes = notes.filter(n => n.id !== id);
+        localStorage.setItem('uni_data', JSON.stringify(notes));
+        renderNotes();
+    }
+
+    function doSearch(type, val) {
         const q = val.toLowerCase();
         let filtered = notes;
         if(type === 'title') filtered = notes.filter(n => n.title.toLowerCase().includes(q));
         if(type === 'date') filtered = notes.filter(n => n.date === q);
-        if(type === 'keys') filtered = notes.filter(n => n.keys.toLowerCase().includes(q));
-        if(type === 'cat') filtered = q ? notes.filter(n => n.cat === val) : notes;
+        if(type === 'tags') filtered = notes.filter(n => n.tags.toLowerCase().includes(q));
+        if(type === 'cat') filtered = q ? notes.filter(n => n.category === val) : notes;
         renderNotes(filtered);
     }
 
     renderNotes();
 </script>
-
 </body>
 </html>
